@@ -24,23 +24,18 @@ public class RequestHandler implements Runnable {
     public void run() {
         Deque<String> rawRequest = socketService.readRequest();
         HttpRequest httpRequest = requestParser.parseRequest(rawRequest);
-
-        StringBuilder response = new StringBuilder();
+    
+        StringBuilder response;
         if (httpRequest.getMethod().equals("GET")) {
             Path path = Paths.get(WWW, httpRequest.getUrl());
 
             if (!Files.exists(path)) {
-                response.append("HTTP/1.1 404 NOT_FOUND\n");
-                response.append("Content-Type: text/html; charset=utf-8\n");
-                response.append("\n");
-                response.append("<h1>Файл не найден!</h1>");
+                response = ResponseConstructor.constructResponse(404);
                 socketService.writeResponse(response.toString());
                 return;
             }
-
-            response.append("HTTP/1.1 200 OK\n");
-            response.append("Content-Type: text/html; charset=utf-8\n");
-            response.append("\n");
+    
+            response = ResponseConstructor.constructResponse(200);
 
             try {
                 Files.readAllLines(path).forEach(response::append);
@@ -49,10 +44,7 @@ public class RequestHandler implements Runnable {
             }
             socketService.writeResponse(response.toString());
         } else {
-            response.append("HTTP/1.1 405 METHOD_NOT_ALLOWED\n");
-            response.append("Content-Type: text/html; charset=utf-8\n");
-            response.append("\n");
-            response.append("<h1>Метод не поддерживается!</h1>");
+            response = ResponseConstructor.constructResponse(405);
             socketService.writeResponse(response.toString());
             return;
         }
