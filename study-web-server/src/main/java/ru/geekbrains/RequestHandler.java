@@ -14,7 +14,8 @@ public class RequestHandler implements Runnable {
 
     private final SocketService socketService;
     private final RequestParser requestParser;
-
+    private final FileReader reader = new FileReader();
+    
     public RequestHandler(SocketService socketService, RequestParser requestParser) {
         this.socketService = socketService;
         this.requestParser = requestParser;
@@ -36,12 +37,8 @@ public class RequestHandler implements Runnable {
             }
     
             response = ResponseConstructor.constructResponse(200);
-
-            try {
-                Files.readAllLines(path).forEach(response::append);
-            } catch (IOException e) {
-                throw new IllegalStateException(e);
-            }
+            response.append(reader.readFile(path));
+            
             socketService.writeResponse(response.toString());
         } else {
             response = ResponseConstructor.constructResponse(405);
