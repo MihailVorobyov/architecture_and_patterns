@@ -1,5 +1,7 @@
 package ru.geekbrains.domain;
 
+import ru.geekbrains.utils.SameSite;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -163,8 +165,8 @@ public class Cookie {
 			return this;
 		}
 		
-		public Builder withSameSite(String extension) {
-			cookie.sameSite = extension;
+		public Builder withSameSite(SameSite value) {
+			cookie.sameSite = value.toString().toLowerCase(Locale.ROOT);
 			return this;
 		}
 

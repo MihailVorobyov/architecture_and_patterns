@@ -2,6 +2,7 @@ package ru.geekbrains.domain;
 
 import org.junit.Assert;
 import org.junit.Test;
+import ru.geekbrains.utils.SameSite;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -19,6 +20,7 @@ public class CookieTest {
 		.withDomain("test.ru")
 		.withSecure()
 		.withHttpOnly()
+		.withSameSite(SameSite.NONE)
 		.build();
 	
 	@Test
