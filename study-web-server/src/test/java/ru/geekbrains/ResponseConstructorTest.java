@@ -2,8 +2,16 @@ package ru.geekbrains;
 
 import org.junit.Assert;
 import org.junit.Test;
+import ru.geekbrains.domain.Cookie;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ResponseConstructorTest {
+	
+	List<Cookie> cookies = null;
+	List<Cookie> cookies1 = new ArrayList<>();
+	
 	
 	@Test
 	public void shouldReturn404() {
@@ -15,7 +23,7 @@ public class ResponseConstructorTest {
 		sb.append("<h1>Файл не найден!</h1>");
 		
 		int code = 404;
-		Assert.assertEquals(sb.toString(), ResponseConstructor.constructResponse(code).toString());
+		Assert.assertEquals(sb.toString(), ResponseConstructor.constructResponse(code, cookies).toString());
 	}
 	
 	@Test
@@ -28,7 +36,7 @@ public class ResponseConstructorTest {
 		sb.append("<h1>Метод не поддерживается!</h1>");
 		
 		int code = 405;
-		Assert.assertEquals(sb.toString(), ResponseConstructor.constructResponse(code).toString());
+		Assert.assertEquals(sb.toString(), ResponseConstructor.constructResponse(code, cookies).toString());
 	}
 	
 	@Test
@@ -40,7 +48,30 @@ public class ResponseConstructorTest {
 		sb.append("\n");
 		
 		int code = 200;
-		Assert.assertEquals(sb.toString(), ResponseConstructor.constructResponse(code).toString());
+		Assert.assertEquals(sb.toString(), ResponseConstructor.constructResponse(code, cookies).toString());
+	}
+	
+	@Test
+	public void shouldPrintCookieWithNameTestCookie() {
+		
+		String cookieName = "test-cookie";
+		String cookieValue = "123456!@#";
+		
+		cookies1.add(new Cookie.Builder()
+			.withName(cookieName)
+			.withValue(cookieValue)
+			.build()
+		);
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("HTTP/1.1 200 OK\n");
+		sb.append("Content-Type: text/html; charset=utf-8\n");
+		sb.append("Set-Cookie: test-cookie=123456!@#\n");
+		sb.append("\n");
+		
+		int code = 200;
+		
+		Assert.assertEquals(sb.toString(), ResponseConstructor.constructResponse(code, cookies1).toString());
 	}
 
 }

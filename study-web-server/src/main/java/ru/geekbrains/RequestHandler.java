@@ -31,17 +31,17 @@ public class RequestHandler implements Runnable {
             Path path = Paths.get(WWW, httpRequest.getUrl());
 
             if (!Files.exists(path)) {
-                response = ResponseConstructor.constructResponse(404);
+                response = ResponseConstructor.constructResponse(404, null);
                 socketService.writeResponse(response.toString());
                 return;
             }
     
-            response = ResponseConstructor.constructResponse(200);
+            response = ResponseConstructor.constructResponse(200, null);
             response.append(reader.readFile(path));
             
             socketService.writeResponse(response.toString());
         } else {
-            response = ResponseConstructor.constructResponse(405);
+            response = ResponseConstructor.constructResponse(405, null);
             socketService.writeResponse(response.toString());
             return;
         }
