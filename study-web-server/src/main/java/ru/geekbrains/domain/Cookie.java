@@ -111,12 +111,12 @@ public class Cookie {
 			cookie = new Cookie();
 		}
 		
-		public Builder withCookieName(String cookieName) {
+		public Builder withName(String cookieName) {
 			cookie.name = cookieName;
 			return this;
 		}
 		
-		public Builder withCookieValue(String cookieValue) {
+		public Builder withValue(String cookieValue) {
 			cookie.value = cookieValue;
 			return this;
 		}
