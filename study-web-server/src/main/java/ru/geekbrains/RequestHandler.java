@@ -1,5 +1,6 @@
 package ru.geekbrains;
 
+import ru.geekbrains.config.Config;
 import ru.geekbrains.domain.HttpRequest;
 
 import java.io.IOException;
@@ -8,17 +9,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Deque;
 
-import static ru.geekbrains.Config.WWW;
-
 public class RequestHandler implements Runnable {
 
     private final SocketService socketService;
     private final RequestParser requestParser;
+    private final Config config;
     private final FileReader reader = new FileReader();
     
-    public RequestHandler(SocketService socketService, RequestParser requestParser) {
+    public RequestHandler(SocketService socketService, RequestParser requestParser, Config config) {
         this.socketService = socketService;
         this.requestParser = requestParser;
+        this.config = config;
     }
 
     @Override
@@ -28,7 +29,7 @@ public class RequestHandler implements Runnable {
     
         StringBuilder response;
         if (httpRequest.getMethod().equals("GET")) {
-            Path path = Paths.get(WWW, httpRequest.getUrl());
+            Path path = Paths.get(config.getWwwHome(), httpRequest.getUrl());
 
             if (!Files.exists(path)) {
                 response = ResponseConstructor.constructResponse(404, null);
