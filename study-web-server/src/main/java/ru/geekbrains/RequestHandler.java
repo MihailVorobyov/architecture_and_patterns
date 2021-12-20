@@ -2,6 +2,7 @@ package ru.geekbrains;
 
 import ru.geekbrains.config.Config;
 import ru.geekbrains.domain.HttpRequest;
+import ru.geekbrains.utils.HttpResponseCodes;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -32,17 +33,17 @@ public class RequestHandler implements Runnable {
             Path path = Paths.get(config.getWwwHome(), httpRequest.getUrl());
 
             if (!Files.exists(path)) {
-                response = ResponseConstructor.constructResponse(404, null);
+                response = ResponseConstructor.constructResponse(HttpResponseCodes.NOT_FOUND, null);
                 socketService.writeResponse(response.toString());
                 return;
             }
     
-            response = ResponseConstructor.constructResponse(200, null);
+            response = ResponseConstructor.constructResponse(HttpResponseCodes.OK, null);
             response.append(reader.readFile(path));
             
             socketService.writeResponse(response.toString());
         } else {
-            response = ResponseConstructor.constructResponse(405, null);
+            response = ResponseConstructor.constructResponse(HttpResponseCodes.METHOD_NOT_ALLOWED, null);
             socketService.writeResponse(response.toString());
             return;
         }

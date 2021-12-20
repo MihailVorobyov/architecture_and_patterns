@@ -3,6 +3,7 @@ package ru.geekbrains;
 import org.junit.Assert;
 import org.junit.Test;
 import ru.geekbrains.domain.Cookie;
+import ru.geekbrains.utils.HttpResponseCodes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class ResponseConstructorTest {
 		sb.append("\n");
 		sb.append("<h1>Файл не найден!</h1>");
 		
-		int code = 404;
+		HttpResponseCodes code = HttpResponseCodes.NOT_FOUND;
 		Assert.assertEquals(sb.toString(), ResponseConstructor.constructResponse(code, cookies).toString());
 	}
 	
@@ -35,7 +36,7 @@ public class ResponseConstructorTest {
 		sb.append("\n");
 		sb.append("<h1>Метод не поддерживается!</h1>");
 		
-		int code = 405;
+		HttpResponseCodes code = HttpResponseCodes.METHOD_NOT_ALLOWED;
 		Assert.assertEquals(sb.toString(), ResponseConstructor.constructResponse(code, cookies).toString());
 	}
 	
@@ -47,7 +48,7 @@ public class ResponseConstructorTest {
 		sb.append("Content-Type: text/html; charset=utf-8\n");
 		sb.append("\n");
 		
-		int code = 200;
+		HttpResponseCodes code = HttpResponseCodes.OK;
 		Assert.assertEquals(sb.toString(), ResponseConstructor.constructResponse(code, cookies).toString());
 	}
 	
@@ -69,8 +70,7 @@ public class ResponseConstructorTest {
 		sb.append("Set-Cookie: test-cookie=123456!@#\n");
 		sb.append("\n");
 		
-		int code = 200;
-		
+		HttpResponseCodes code = HttpResponseCodes.OK;
 		Assert.assertEquals(sb.toString(), ResponseConstructor.constructResponse(code, cookies1).toString());
 	}
 
