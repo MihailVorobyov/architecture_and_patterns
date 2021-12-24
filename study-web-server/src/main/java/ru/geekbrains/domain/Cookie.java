@@ -14,7 +14,7 @@ import java.util.Locale;
  *
  */
 
-public class Cookie {
+public class Cookie implements HttpResponseHeader {
 	
 	private String name;
 	
@@ -78,6 +78,7 @@ public class Cookie {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		
+		sb.append("Set-Cookie: ");
 		sb.append(name + "=" + value);
 		
 		if (domain != null) {
@@ -105,12 +106,16 @@ public class Cookie {
 		return sb.toString();
 	}
 	
+	public static Builder getBuilder() {
+		return new Builder();
+	}
+	
 	public static class Builder {
 		
 		private final Cookie cookie;
 		
-		public Builder() {
-			cookie = new Cookie();
+		Builder() {
+			this.cookie = new Cookie();
 		}
 		
 		public Builder withName(String cookieName) {
@@ -140,7 +145,6 @@ public class Cookie {
 		}
 		
 		public Builder withMaxAge(long maxAge) {
-			
 			cookie.maxAge = maxAge;
 			return this;
 		}
@@ -182,6 +186,4 @@ public class Cookie {
 			return cookie;
 		}
 	}
-	
-	
 }

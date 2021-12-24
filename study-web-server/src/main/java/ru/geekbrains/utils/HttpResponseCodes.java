@@ -2,24 +2,9 @@ package ru.geekbrains.utils;
 
 public enum HttpResponseCodes {
 	
-	OK(200){
-		@Override
-		public String getStatus() {
-			return OK.toString();
-		}
-	},
-	NOT_FOUND(404){
-		@Override
-		public String getStatus() {
-			return OK.toString();
-		}
-	},
-	METHOD_NOT_ALLOWED(405){
-		@Override
-		public String getStatus() {
-			return OK.toString();
-		}
-	};
+	OK(200),
+	NOT_FOUND(404),
+	METHOD_NOT_ALLOWED(405);
 	
 	private final int code;
 	
@@ -27,9 +12,11 @@ public enum HttpResponseCodes {
 		this.code = code;
 	}
 	
-	public abstract String getStatus();
+	public String getStatus() {
+		return name();
+	}
 	
 	public int getCode() {
-		return this.code;
+		return code;
 	}
 }

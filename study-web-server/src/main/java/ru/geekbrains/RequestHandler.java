@@ -1,7 +1,9 @@
 package ru.geekbrains;
 
 import ru.geekbrains.config.Config;
+import ru.geekbrains.domain.Cookie;
 import ru.geekbrains.domain.HttpRequest;
+import ru.geekbrains.domain.HttpResponse;
 import ru.geekbrains.utils.HttpResponseCodes;
 
 import java.io.IOException;
@@ -25,26 +27,49 @@ public class RequestHandler implements Runnable {
 
     @Override
     public void run() {
+        
+        // ========== Get a request ==========
+        
         Deque<String> rawRequest = socketService.readRequest();
         HttpRequest httpRequest = requestParser.parseRequest(rawRequest);
     
-        StringBuilder response;
+        // ========== Send a response ==========
+        
+        HttpResponse response;
+        String body = "";
+        if(httpRequest.getHeaders().containsKey("cookie") && httpRequest.getHeaders().get("cookie").contains("session=")) {
+        
+        }
+        Cookie session = Cookie.getBuilder()
+                .withName("session")
+                .withValue("QWERTY123")
+                .withPath(httpRequest.getUrl())
+                .withExpires(0, 1, 0, 0, 0, 0)
+                .withHttpOnly()
+                .build();
+        
         if (httpRequest.getMethod().equals("GET")) {
             Path path = Paths.get(config.getWwwHome(), httpRequest.getUrl());
 
             if (!Files.exists(path)) {
-                response = ResponseConstructor.constructResponse(HttpResponseCodes.NOT_FOUND, null);
-                socketService.writeResponse(response.toString());
+                response = HttpResponse.getBuilder()
+                    .withHttpResponseCode(HttpResponseCodes.NOT_FOUND)
+                    .withHeader(session)
+                    .build();
+                socketService.writeResponse(response);
                 return;
             }
     
-            response = ResponseConstructor.constructResponse(HttpResponseCodes.OK, null);
-            response.append(reader.readFile(path));
-            
-            socketService.writeResponse(response.toString());
+            response = HttpResponse.getBuilder()
+                .withHttpResponseCode(HttpResponseCodes.OK)
+                .withBody(reader.readFile(path))
+                .build();
+            socketService.writeResponse(response);
         } else {
-            response = ResponseConstructor.constructResponse(HttpResponseCodes.METHOD_NOT_ALLOWED, null);
-            socketService.writeResponse(response.toString());
+            response = HttpResponse.getBuilder()
+                .withHttpResponseCode(HttpResponseCodes.METHOD_NOT_ALLOWED)
+                .build();
+            socketService.writeResponse(response);
             return;
         }
         try {

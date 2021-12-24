@@ -65,21 +65,9 @@ public class HttpRequest {
             && this.httpRequest.url == null
             && this.httpRequest.headers == null
             && this.httpRequest.body == null) {
-                throw new IllegalStateException("Wrong HttpRequest arameters!");
+                throw new IllegalStateException("Wrong HttpRequest parameters!");
             }
             return this.httpRequest;
         }
     }
-    
-    @Override
-    public String toString() {
-        return "HttpRequest{" +
-                "method='" + method + '\'' +
-                ", url='" + url + '\'' +
-                ", headers=" + headers +
-                ", body='" + body + '\'' +
-                '}';
-    }
-    
-    
 }

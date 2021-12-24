@@ -1,5 +1,7 @@
 package ru.geekbrains;
 
+import ru.geekbrains.domain.HttpResponse;
+
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
@@ -34,10 +36,10 @@ public class SocketService implements Closeable {
         }
     }
 
-    public void writeResponse(String rawResponse) {
+    public void writeResponse(HttpResponse response) {
         try {
             PrintWriter output = new PrintWriter(socket.getOutputStream());
-            output.print(rawResponse);
+            output.print(response.toString());
             output.flush();
         } catch (IOException e) {
             throw new IllegalStateException(e);
