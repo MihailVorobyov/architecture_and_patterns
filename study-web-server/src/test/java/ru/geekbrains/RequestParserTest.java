@@ -18,8 +18,9 @@ public class RequestParserTest {
         request.add("Some-header: value");
         request.add("\n");
         HttpRequest httpRequest = parser.parseRequest(request);
-
+        
         Assert.assertEquals("GET", httpRequest.getMethod());
         Assert.assertEquals("/some/file.html", httpRequest.getUrl());
+        Assert.assertEquals("value", httpRequest.getHeaders().get("Some-header"));
     }
 }

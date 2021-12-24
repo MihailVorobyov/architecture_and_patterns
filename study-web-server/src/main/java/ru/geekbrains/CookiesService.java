@@ -23,7 +23,7 @@ public class CookiesService {
 		for (String s : cookies) {
 
 			String[] nameValuePair = s.split("=");
-			result.add(new Cookie.Builder()
+			result.add(Cookie.getBuilder()
 					.withName(nameValuePair[0])
 					.withValue(nameValuePair[1])
 					.build()
@@ -31,16 +31,5 @@ public class CookiesService {
 		}
 		
 		return result;
-	}
-	
-	public static String addCookies(List<Cookie> cookies) {
-		
-		StringBuilder builder = new StringBuilder();
-		
-		cookies.forEach(cookie -> {
-			builder.append("Set-Cookie: " + cookie + "\n");
-		});
-		
-		return builder.toString();
 	}
 }
