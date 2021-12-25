@@ -9,7 +9,7 @@ import java.util.LinkedList;
 
 public class RequestParserTest {
 
-    private final RequestParser parser = new RequestParser();
+    private final RequestParser parser = RequestParserFactory.createRequestParser();
 
     @Test
     public void testSimpleRequest() {
@@ -18,8 +18,9 @@ public class RequestParserTest {
         request.add("Some-header: value");
         request.add("\n");
         HttpRequest httpRequest = parser.parseRequest(request);
-
+        
         Assert.assertEquals("GET", httpRequest.getMethod());
         Assert.assertEquals("/some/file.html", httpRequest.getUrl());
+        Assert.assertEquals("value", httpRequest.getHeaders().get("Some-header"));
     }
 }
