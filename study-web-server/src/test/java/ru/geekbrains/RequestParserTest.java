@@ -9,7 +9,7 @@ import java.util.LinkedList;
 
 public class RequestParserTest {
 
-    private final RequestParser parser = new RequestParser();
+    private final RequestParser parser = RequestParserFactory.createRequestParser();
 
     @Test
     public void testSimpleRequest() {

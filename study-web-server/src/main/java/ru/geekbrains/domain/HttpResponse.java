@@ -66,27 +66,4 @@ public class HttpResponse {
 			return this.httpResponse;
 		}
 	}
-	
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(String.format("HTTP/1.1 %d %s\r\n", this.code.getCode(), this.code.getStatus()));
-		builder.append("Content-Type: text/html; charset=utf-8\r\n");
-		
-		if(headers != null) {
-			headers.forEach(header -> builder.append(String.format("%s\r\n", header.toString())));
-		} else {
-			builder.append("header: empty\r\n");
-		}
-		
-		builder.append("\r\n"); // Separate body from headers
-		
-		if (this.body != null) {
-			builder.append(String.format("%s\r\n", this.body));
-		} else {
-			builder.append(String.format("<h1>%s</h1>\r\n", this.code.getStatus()));
-		}
-		
-		return builder.toString();
-	}
 }

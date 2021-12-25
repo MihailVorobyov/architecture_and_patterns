@@ -34,7 +34,7 @@ public class CookieServiceTest {
 		
 		Deque<String> requestDeque = new LinkedList<>(Arrays.asList(strings));
 		
-		HttpRequest httpRequest = new RequestParser().parseRequest(requestDeque);
+		HttpRequest httpRequest = RequestParserFactory.createRequestParser().parseRequest(requestDeque);
 		
 		List<Cookie> cookies = CookiesService.getCookies(httpRequest);
 		
