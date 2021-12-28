@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>study-web-server</module>
+        <module>Lesson-07_MVC</module>
     </modules>
 
     <properties>

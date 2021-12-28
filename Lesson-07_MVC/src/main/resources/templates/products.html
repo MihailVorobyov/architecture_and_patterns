@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <title>Products</title>
+</head>
+<body>
+    <h1>This is Products page</h1>
+    <ul th:each="key : ${pages.keySet()}">
+        <li><a th:href="@{${key}}" th:text="${pages.get(key)}" /></li>
+    </ul>
+
+    <div class="products">
+        <table border="1" cellpadding="5">
+            <caption style="margin-bottom: 20px">All products</caption>
+            <thead>
+                <td>id</td>
+                <td>title</td>
+                <td>description</td>
+                <td>price</td>
+            </thead>
+            <tbody>
+                <tr th:each="product : ${productList}">
+                    <td th:text="*{product.id}"/>
+                    <td th:text="*{product.title}"/>
+                    <td th:text="*{product.description}"/>
+                    <td th:text="*{product.price}"/>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</body>
+</html>
